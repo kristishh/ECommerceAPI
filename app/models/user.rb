@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
+  has_secure_password
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, 
@@ -9,8 +11,7 @@ class User < ApplicationRecord
     :validatable,
     :registerable,
     :jwt_authenticatable,
-    jwt_revocation_strategy: self
-  
+    jwt_revocation_strategy: self  
   
   validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
 
