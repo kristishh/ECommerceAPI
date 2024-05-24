@@ -14,6 +14,10 @@ class Admin::BrandsController < ApplicationController
 
   def update
     if @brand.update(update_brand_params)
+      if @brand.status == "inactive"
+        @brand.products.update_all(status: "inactive")
+      end
+
       render json: @brand
     else
       render json: @brand.errors, status: :unprocessable_entity
