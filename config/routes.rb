@@ -19,6 +19,11 @@ Rails.application.routes.draw do
     root :to => 'content#show_info'
   end
 
+  namespace :admin do
+    resources 'brands', only: [:create, :update, :destroy]
+    resources 'products', only: [:create, :update, :destroy]
+  end
+  
   # Defines the root path route ("/")
   # root "posts#index"
 end

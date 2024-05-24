@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::API
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :authenticate_user!
 
-  protected
+  private 
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[email password])
-    devise_parameter_sanitizer.permit(:sign_in, keys: %i[email password])
+  def authorize_user!
+    is_authorized = request.fullpath.split('/')[1] == 'admin' && current_user&.is_admin?
 
+    render json: { message: "You're not authorized" }, :status => :unauthorized unless is_authorized
   end
 end
