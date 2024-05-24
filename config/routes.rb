@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources 'brands', only: [:create, :update, :destroy]
+    resources 'products', only: [:create, :update, :destroy]
   end
   
   # Defines the root path route ("/")
