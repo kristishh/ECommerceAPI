@@ -1,8 +1,6 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
-  has_secure_password
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, 
@@ -18,6 +16,10 @@ class User < ApplicationRecord
   enum role: { client: 0, admin: 1 }
 
   after_initialize :set_default_role
+
+  def is_admin?
+    self.role == "admin"
+  end
 
   private
   
