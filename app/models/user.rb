@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
+  include ActionView::Helpers::NumberHelper
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -12,6 +13,7 @@ class User < ApplicationRecord
     jwt_revocation_strategy: self  
   
   validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
+  validates :payout_rate, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   enum role: { client: 0, admin: 1 }
 
