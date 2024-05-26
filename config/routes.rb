@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     resources 'products', only: [:create, :update, :destroy]
 
     post 'users/create_client' => 'users/create_client'
+
+    post 'client_products/set_availability' => 'client_products/set_availability'
   end
   
   # Defines the root path route ("/")
