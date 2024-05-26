@@ -19,6 +19,9 @@ class User < ApplicationRecord
 
   after_initialize :set_default_role
 
+  has_many :client_products
+  has_many :products, through: :client_products
+
   def is_admin?
     self.role == "admin"
   end

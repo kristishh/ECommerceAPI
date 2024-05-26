@@ -7,6 +7,9 @@ class Product < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
 
+  has_many :client_products
+  has_many :users, through: :client_products
+
   private
 
   def brand_is_inactive?
