@@ -1,4 +1,6 @@
 class Brand < ApplicationRecord
+  has_paper_trail
+
   has_many :products, dependent: :destroy
 
   enum status: { inactive: 0, active: 1 }

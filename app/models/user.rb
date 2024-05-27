@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_paper_trail
+
   include Devise::JWT::RevocationStrategies::JTIMatcher
   include ActionView::Helpers::NumberHelper
 
