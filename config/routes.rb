@@ -25,7 +25,8 @@ Rails.application.routes.draw do
 
     post 'users/create_client' => 'users/create_client'
 
-    post 'client_products/set_availability' => 'client_products/set_availability'
+    get 'client_products/get_report' => 'client_products#get_report'
+    post 'client_products/set_availability' => 'client_products#set_availability'
   end
   
   # Defines the root path route ("/")

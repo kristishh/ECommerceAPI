@@ -23,11 +23,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_200340) do
   end
 
   create_table "client_products", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "product_id"
+    t.bigint "user_id"
+    t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "product_id"], name: "index_client_products_on_user_id_and_product_id"
+    t.index ["product_id"], name: "index_client_products_on_product_id"
+    t.index ["user_id"], name: "index_client_products_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|

@@ -1,6 +1,20 @@
 class Admin::ClientProductsController < ApplicationController
   before_action :authorize_user!
-  before_action :set_client
+  before_action :set_client, only:  [:set_availability]
+
+  def get_report
+    return render json: { message: "Choose between user_id and product_id" }, status: :unprocessable_entity if get_report_params.has_key?(:product_id) && get_report_params.has_key?(:user_id)
+
+    client_products = ClientProduct.joins(:user)
+
+    if @get_report_params[:user_id].present?
+      @report_by_user = client_products.where(user_id: @get_report_params[:user_id])
+    else
+      @report_by_product = client_products.where(product_id: @get_report_params[:product_id])
+    end
+
+    return render json: { message: "Nothing was found" } unless @report_by_user.present? || @report_by_product.present?
+  end
 
   def set_availability    
     product_ids = set_availability_params[:product_ids]
@@ -41,5 +55,9 @@ class Admin::ClientProductsController < ApplicationController
 
   def set_availability_params
     params.require(:product_availability).permit(:user_id, :product_ids => [])
+  end
+
+  def get_report_params
+    @get_report_params = params.require(:get_report_by).permit(:user_id, :product_id)
   end
 end
