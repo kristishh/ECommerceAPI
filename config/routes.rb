@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     get 'client_products/get_report' => 'client_products#get_report'
     post 'client_products/set_availability' => 'client_products#set_availability'
   end
+
+  get 'products/search' => 'products#search'
   
   # Defines the root path route ("/")
   # root "posts#index"
