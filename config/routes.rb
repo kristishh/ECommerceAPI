@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   end
 
   get 'products/search' => 'products#search'
+
+  post 'product_cards/generate_new' => 'product_cards#generate_new'
+  put 'product_cards/verify' => 'product_cards/verify'
   
   # Defines the root path route ("/")
   # root "posts#index"

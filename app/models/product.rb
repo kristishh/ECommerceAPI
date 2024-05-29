@@ -9,8 +9,13 @@ class Product < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
 
+  has_many :product_cards
   has_many :client_products
   has_many :users, through: :client_products
+
+  def inactive?
+    self.status == "inactive"
+  end
 
   private
 

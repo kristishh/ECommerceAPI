@@ -17,6 +17,9 @@ module ECommerceApi
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
 
+    services = root.join("lib/services")
+    config.autoload_paths << services
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

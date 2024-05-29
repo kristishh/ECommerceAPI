@@ -21,6 +21,7 @@ class User < ApplicationRecord
 
   after_initialize :set_default_role
 
+  has_many :product_cards
   has_many :client_products
   has_many :products, through: :client_products
 
