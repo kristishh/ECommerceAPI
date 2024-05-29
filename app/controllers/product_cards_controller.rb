@@ -12,6 +12,18 @@ class ProductCardsController < ApplicationController
     end
   end
 
+  def cancel
+    product_card = ProductCard.find(params[:id])
+
+    return render json: { message: "Product card doesn't exist" }, status: :unprocessable_entity unless product_card.present?
+
+    return render json: { message: "Product card doesn't belong to this user" }, status: :forbidden unless product_card.user_id == current_user.id
+    
+    product_card.update!(status: "cancelled")
+
+    render json: product_card
+  end
+
   private
 
   def generate_new_params
