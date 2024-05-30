@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources 'brands', only: [:create, :update, :destroy]
-    resources 'products', only: [:create, :update, :destroy]
+    resources 'products', only: [:show, :create, :update, :destroy]
 
     post 'users/create_client' => 'users/create_client'
 

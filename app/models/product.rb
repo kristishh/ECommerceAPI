@@ -4,14 +4,18 @@ class Product < ApplicationRecord
   belongs_to :brand
 
   validates :name, presence: true, uniqueness: true, on: :create
-
   validate :status, unless: :brand_is_inactive?
+
 
   enum status: { inactive: 0, active: 1 }
 
   has_many :product_cards
   has_many :client_products
   has_many :users, through: :client_products
+
+  def active?
+    self.status == "active"
+  end
 
   def inactive?
     self.status == "inactive"
