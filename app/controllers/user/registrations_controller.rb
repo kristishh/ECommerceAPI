@@ -1,6 +1,8 @@
 class User::RegistrationsController < Devise::RegistrationsController
+  before_action :configure_sign_up_params
   include RackSessionsFix
   respond_to :json
+
   private
 
   def respond_with(current_user, _opts = {})
@@ -17,9 +19,7 @@ class User::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  private
-
-  def check_if_logged_in
-    # if
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :payout_rate])
   end
 end

@@ -5,6 +5,6 @@ class Brand < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
 
-  validates :name, presence: true, uniqueness: true, on: :create
+  validates :name, presence: true, uniqueness: { case_sensitive: false }, on: :create
   validates :status, presence: true
 end

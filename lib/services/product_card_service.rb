@@ -10,7 +10,7 @@ class ProductCardService
   def generate_card(details)
     product = Product.find(details[:product_id])
 
-    raise "Product is inactive" unless product.inactive?
+    raise "Product is inactive" unless product.active?
 
     ProductCard.create!(user_id: @current_user.id, **details)
   end
