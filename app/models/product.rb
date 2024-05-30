@@ -3,7 +3,7 @@ class Product < ApplicationRecord
 
   belongs_to :brand
 
-  validates :name, presence: true, uniqueness: true, on: :create
+  validates :name, presence: true, uniqueness: { case_sensitive: false }, on: :create
   validate :status, unless: :brand_is_inactive?
 
 
@@ -24,6 +24,8 @@ class Product < ApplicationRecord
   private
 
   def brand_is_inactive?
+    return unless self.brand_id.present?
+
     if Brand.find(self.brand_id).status == 'inactive' && self.status == 'active'
       errors.add(:status, "can be only inactive because brand is inactive")
     end

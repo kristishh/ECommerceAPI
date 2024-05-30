@@ -43,6 +43,7 @@ group :development, :test do
   gem "factory_bot_rails", "~> 6.4"
   gem 'faker'
   gem "database_cleaner", "~> 2.0"
+  gem 'shoulda-matchers', '~> 6.0'
 end
 
 group :development do
