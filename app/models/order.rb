@@ -27,6 +27,6 @@ class Order < ApplicationRecord
 
     self.product_card.update(quantity: new_quantity)
 
-    self.product_card.quantity == 0 && self.product_card.update!(status: "archived")
+    self.product_card.update!(status: "archived") if self.product_card.quantity == 0 && self.product_card.status == "verified"
   end
 end

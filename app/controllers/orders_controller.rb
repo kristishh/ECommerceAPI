@@ -18,6 +18,13 @@ class OrdersController < ApplicationController
     end
   end
 
+  def index
+    @all_orders = Order.joins(:product_card)
+      .where(product_card: { user_id: current_user.id })
+      .where.not(product_card: { status: "cancelled" })
+      .order(status: :desc)
+  end
+
   private
 
   def order_params

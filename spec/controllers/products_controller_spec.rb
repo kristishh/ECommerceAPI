@@ -3,9 +3,12 @@ require 'rails_helper'
 RSpec.describe ProductsController, type: :controller do
   let(:client_user) { create(:user, :client) }
   let!(:brand) { create(:brand) }
-  let!(:product1) { create(:product, name: "Test Product 1", price: 50, brand: brand) }
-  let!(:product2) { create(:product, name: "Another Product", price: 150, brand: brand) }
-  let!(:product3) { create(:product, name: "Test Product 3", price: 200, brand: brand) }
+  let!(:product1) { create(:product, name: "Test Product 1", price: 50, brand: brand, status: "active") }
+  let!(:product2) { create(:product, name: "Another Product", price: 150, brand: brand, status: "active") }
+  let!(:product3) { create(:product, name: "Test Product 3", price: 200, brand: brand, status: "active") }
+  let!(:client_product1) { create(:client_product, product: product1, user: client_user) }
+  let!(:client_product2) { create(:client_product, product: product2, user: client_user) }
+  let!(:client_product3) { create(:client_product, product: product3, user: client_user) }
 
   before do
     sign_in client_user

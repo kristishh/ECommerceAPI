@@ -56,6 +56,7 @@ RSpec.describe Order, type: :model do
       end
 
       it 'archives product card if its quantity becomes zero' do
+        product_card.update!(status: "verified")
         order = Order.create(product_card: product_card, quantity: 5)
 
         expect(order.status).to eq('completed')
