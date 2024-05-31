@@ -17,7 +17,7 @@ class ProductCard < ApplicationRecord
   before_validation :generate_activation_code, on: :create
   before_validation :set_status, on: :create
   
-
+  validate :user_has_access_to_product?
   validate :can_have_same_user_and_product_once, on: :create
   validate :card_status, on: :update
   
@@ -35,6 +35,10 @@ class ProductCard < ApplicationRecord
   end
 
   private 
+
+  def user_has_access_to_product?
+    return errors.add(:user, "doesn't have access to this product") unless ClientProduct.exists?(user_id: self.user_id, product_id: self.product_id)
+  end
 
   def card_status
     product_card = ProductCard.find_by(user_id: self.user_id, product_id: self.product_id)

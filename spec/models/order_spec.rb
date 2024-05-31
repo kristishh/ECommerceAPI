@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Order, type: :model do
   let(:user) { create(:user) }
   let(:product) { create(:product) }
+  let!(:client_product1) { create(:client_product, product: product, user: user) }
   let(:product_card) { create(:product_card, user: user, product: product, quantity: 5) }
   let(:invalid_product_card) { create(:product_card, user: user, product: product, quantity: 5) }
 

@@ -13,7 +13,7 @@ class Order < ApplicationRecord
   def product_card_is_verified?
     return unless self.product_card.present?
 
-    return errors.add(:product_card, "is not verified") unless self.product_card.status == "verified"
+    return errors.add(:product_card, "is not verified") unless %w(verified archived).include?(self.product_card.status)
   end
 
   private

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe ProductCardsController, type: :controller do
   let(:user) { create(:user) }
   let(:product) { create(:product) }
+  let!(:client_product1) { create(:client_product, product: product, user: user) }
   let(:product_card_service) { ProductCardService.new(user) }
 
   before do
@@ -49,7 +50,7 @@ RSpec.describe ProductCardsController, type: :controller do
   end
 
   describe '#cancel' do
-    let!(:product_card) { create(:product_card, user: user, product: product) }
+    let(:product_card) { create(:product_card, user: user, product: product) }
 
     context 'belongs to the user' do
       it 'cancels the product card' do
@@ -64,6 +65,7 @@ RSpec.describe ProductCardsController, type: :controller do
 
     context 'when product card does not belong to the user' do
       let(:other_user) { create(:user) }
+      let(:client_product1) { create(:client_product, product: product, user: other_user) }
       let!(:other_product_card) { create(:product_card, user: other_user, product: product) }
 
       it 'returns an error message' do

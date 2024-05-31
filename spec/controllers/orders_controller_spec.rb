@@ -4,11 +4,12 @@ RSpec.describe OrdersController, type: :controller do
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
   let(:product) { create(:product) }
-  let(:another_product) { create(:product, name: "New brand name") }
+  let!(:client_product1) { create(:client_product, product: product, user: user) }
+  let!(:client_product2) { create(:client_product, product: product, user: another_user) }
   let(:product_card) { create(:product_card, user: user, product: product, pin_code: '1234') }
-  let(:cancelled_product_card) { create(:product_card, user: user, product: another_product, status: 'cancelled', quantity: 1) }
-  let(:order1) { create(:order, product_card: product_card, quantity: 2, status: 'completed') }
-  let(:order2) { create(:order, product_card: cancelled_product_card, quantity: 1, status: 'cancelled') }
+  let(:cancelled_product_card) { create(:product_card, user: user, product: product, status: 'cancelled', quantity: 10) }
+  let(:order1) { create(:order, product_card: product_card, quantity: 2) }
+  let(:order2) { create(:order, product_card: cancelled_product_card, quantity: 1) }
 
   before do
     sign_in user
@@ -100,21 +101,22 @@ RSpec.describe OrdersController, type: :controller do
   end
 
   describe '#index' do
-  before do
-    get :index
-  end
+    before do
+      get :index
+    end
 
-  it 'returns http success' do
-    expect(response).to have_http_status(:success)
-  end
+    it 'returns http success' do
+      expect(response).to have_http_status(:success)
+    end
 
-  it 'assigns @all_orders' do
-    expect(@controller.instance_variable_get(:@all_orders)).to match_array([order1])
-  end
+    it 'assigns @all_orders' do
+      expect(@controller.instance_variable_get(:@all_orders)).to match_array([order1])
+    end
 
-  it 'does not include cancelled product cards' do
-    cancelled_product_card.update!(status: "cancelled")
-    expect(@controller.instance_variable_get(:@all_orders)).not_to include(order2)
+    it 'does not include cancelled product cards' do
+      cancelled_product_card.update!(status: "cancelled")
+    
+      expect(@controller.instance_variable_get(:@all_orders)).not_to include(order2)
+    end
   end
-end
 end
