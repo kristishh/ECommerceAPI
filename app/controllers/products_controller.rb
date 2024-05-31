@@ -1,9 +1,9 @@
 class ProductsController < ApplicationController
   def search
-    @product_list = Product.all
+    @product_list = Product.joins(:client_products).where(client_products: { user_id: current_user.id }, status: "active")
 
     if search_params[:name].present?
-      @product_list = Product.where('products.name ILIKE ?', "%#{search_params[:name]}%")
+      @product_list = @product_list.where('products.name ILIKE ?', "%#{search_params[:name]}%")
     end
     if search_params.dig(:price, :min)
       @product_list = @product_list.where("price > ?", search_params[:price][:min])
