@@ -5,9 +5,13 @@ class ProductCard < ApplicationRecord
   belongs_to :user
   belongs_to :product
 
+  has_many :orders
+
   validates :activation_code, presence: true, uniqueness: true
-  validates :status, inclusion: { in: %w(unverified verified cancelled) }
-  validates :quantity, numericality: { greater_than_or_equal_to: 1 }
+  validates :status, inclusion: { in: %w(unverified verified cancelled archived) }
+  validates :quantity, numericality: { greater_than_or_equal_to: 1 }, on: :create
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }, on: :update
+
   
   before_validation :generate_pin_code, on: :create
   before_validation :generate_activation_code, on: :create
@@ -34,6 +38,8 @@ class ProductCard < ApplicationRecord
 
   def card_status
     product_card = ProductCard.find_by(user_id: self.user_id, product_id: self.product_id)
+
+    return if product_card.status == self.status
 
     return errors.add(:status, "can no longer can be changed") if product_card.status == "cancelled"
 

@@ -13,6 +13,8 @@ class Product < ApplicationRecord
   has_many :client_products
   has_many :users, through: :client_products
 
+  after_commit :cancel_product_cards_if_needed
+
   def active?
     self.status == "active"
   end
@@ -22,6 +24,12 @@ class Product < ApplicationRecord
   end
 
   private
+
+  def cancel_product_cards_if_needed
+    if self.status == "inactive"
+      self.product_cards.update_all(status: "cancelled")
+    end
+  end
 
   def brand_is_inactive?
     return unless self.brand_id.present?

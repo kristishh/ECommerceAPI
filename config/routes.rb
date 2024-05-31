@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   put 'product_cards/verify' => 'product_cards/verify'
   delete 'product_cards/cancel/:id' => 'product_cards#cancel'
 
+  resources :orders, only: [:create]
+
   # Defines the root path route ("/")
   # root "posts#index"
 end
